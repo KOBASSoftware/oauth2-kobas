@@ -46,6 +46,7 @@ class Kobas extends AbstractProvider
     /**
      * Get access token url to retrieve token
      *
+     * @array $params
      * @return string
      */
     public function getBaseAccessTokenUrl(array $params)
