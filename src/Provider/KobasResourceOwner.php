@@ -1,5 +1,7 @@
 <?php
+
 namespace Kobas\OAuth2\Client\Provider;
+
 use League\OAuth2\Client\Provider\ResourceOwnerInterface;
 
 class KobasResourceOwner implements ResourceOwnerInterface

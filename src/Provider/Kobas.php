@@ -63,7 +63,6 @@ class Kobas extends AbstractProvider
     public function getResourceOwnerDetailsUrl(AccessToken $token)
     {
         return $this->url . '/me';
-
     }
 
     /**

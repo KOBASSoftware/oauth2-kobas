@@ -1,24 +1,21 @@
 <?php
+
 namespace Kobas\OAuth2\Client\Test\Provider;
+
 use League\OAuth2\Client\Tool\QueryBuilderTrait;
 use Mockery as m;
+
 class KobasTest extends \PHPUnit_Framework_TestCase
 {
     use QueryBuilderTrait;
     protected $provider;
-    protected function setUp()
-    {
-        $this->provider = new \Kobas\OAuth2\Client\Provider\Kobas([
-            'clientId' => 'mock_client_id',
-            'clientSecret' => 'mock_secret',
-            'redirectUri' => 'none',
-        ]);
-    }
+
     public function tearDown()
     {
         m::close();
         parent::tearDown();
     }
+
     public function testAuthorizationUrl()
     {
         $url = $this->provider->getAuthorizationUrl();
@@ -32,6 +29,7 @@ class KobasTest extends \PHPUnit_Framework_TestCase
         $this->assertArrayHasKey('approval_prompt', $query);
         $this->assertNotNull($this->provider->getState());
     }
+
     public function testScopes()
     {
         $scopeSeparator = ' ';
@@ -41,12 +39,14 @@ class KobasTest extends \PHPUnit_Framework_TestCase
         $encodedScope = $this->buildQueryString($query);
         $this->assertContains($encodedScope, $url);
     }
+
     public function testGetAuthorizationUrl()
     {
         $url = $this->provider->getAuthorizationUrl();
         $uri = parse_url($url);
         $this->assertEquals('/authorize', $uri['path']);
     }
+
     public function testGetBaseAccessTokenUrl()
     {
         $params = [];
@@ -54,6 +54,7 @@ class KobasTest extends \PHPUnit_Framework_TestCase
         $uri = parse_url($url);
         $this->assertEquals('/access_token', $uri['path']);
     }
+
     public function testGetAccessToken()
     {
         $response = m::mock('Psr\Http\Message\ResponseInterface');
@@ -69,6 +70,15 @@ class KobasTest extends \PHPUnit_Framework_TestCase
         $this->assertGreaterThanOrEqual(time(), $token->getExpires());
         $this->assertEquals('mock_refresh_token', $token->getRefreshToken());
         $this->assertNull($token->getResourceOwnerId());
+    }
+
+    protected function setUp()
+    {
+        $this->provider = new \Kobas\OAuth2\Client\Provider\Kobas([
+            'clientId' => 'mock_client_id',
+            'clientSecret' => 'mock_secret',
+            'redirectUri' => 'none',
+        ]);
     }
 
 }
